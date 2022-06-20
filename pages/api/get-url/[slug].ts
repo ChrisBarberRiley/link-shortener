@@ -19,6 +19,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     .single();
 
   if (error) {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Cache-Control", "s-maxage=1000000, stale-while-revalidate");
+
     res.status(404).json({ message: "Not found" });
     return;
   }
