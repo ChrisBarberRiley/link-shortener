@@ -5,8 +5,10 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     req.nextUrl.pathname.startsWith("/api/") ||
     req.nextUrl.pathname === "/"
   ) {
+    console.log("Returning early");
     return;
   }
+  // console.log("req.nextUrl.pathname", req.nextUrl.pathname);
   const slug = req.nextUrl.pathname.split("/").pop();
 
   const slugFetch = await fetch(`${req.nextUrl.origin}/api/get-url/${slug}`);
@@ -15,7 +17,8 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect(req.nextUrl.origin);
   }
 
-  const data = await slugFetch.json();
+  const data = await slugFetch;
+  console.log("data", data);
 
   if (data?.url) {
     return NextResponse.redirect(data.url);

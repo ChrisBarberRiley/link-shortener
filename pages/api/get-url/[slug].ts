@@ -3,9 +3,9 @@ import { supabase } from "../../../supabase/client";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug } = req.query;
+  console.log("req.query", req.query);
   console.log("slug", slug);
 
-  // Should never occur as route would go to index and not this page
   if (!slug) {
     res.status(400).json({ error: "Missing slug" });
     return;
