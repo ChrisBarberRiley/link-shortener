@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const [slug, setSlug] = useState<string>("");
   const [success, setSuccess] = useState<null | object>(null);
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     // const res = await fetch(`/api/shorten`);
     console.log("form submit");
