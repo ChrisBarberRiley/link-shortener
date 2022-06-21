@@ -6,9 +6,9 @@ import { supabase } from "../supabase/client";
 const Home: NextPage = () => {
   const [url, setUrl] = useState<string | undefined>("");
   const [slug, setSlug] = useState<string>("");
-  const [success, setSuccess] = useState<null | object>(null);
+  const [success, setSuccess] = useState<any>(null); // TODO: come back with interface
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // const res = await fetch(`/api/shorten`);
     console.log("form submit");
