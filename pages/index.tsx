@@ -7,6 +7,7 @@ const Home: NextPage = () => {
   const [url, setUrl] = useState<string | undefined>("");
   const [slug, setSlug] = useState<string>("");
   const [success, setSuccess] = useState<any>(null); // TODO: come back with interface
+  const [message, setMessage] = useState<string>("");
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,14 +15,20 @@ const Home: NextPage = () => {
     console.log("form submit");
 
     try {
-      const { data, error } = await supabase
-        .from("links")
-        .insert([{ url, slug }]);
+      if (url && slug) {
+        //TODO: check valid URL
 
-      if (!error) {
-        setSuccess(data);
-        setUrl("");
-        setSlug("");
+        const { data, error } = await supabase
+          .from("links")
+          .insert([{ url, slug }]);
+
+        if (!error) {
+          setSuccess(data);
+          setUrl("");
+          setSlug("");
+        }
+      } else {
+        setMessage("Please enter a URL and a slug");
       }
     } catch (e) {
       console.log(e);
@@ -45,10 +52,11 @@ const Home: NextPage = () => {
           <p className="text-gray-400">
             Get started by entering a URL <br />
           </p>
+          {message && <p className="text-red-500">{message}</p>}
           <form className="w-full max-w-sm" onSubmit={handleFormSubmit}>
             <div className="flex items-center border-b border-teal-500 py-2">
               <input
-                className="appearance-none w-1/4 bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                className="appearance-none w-1/4 bg-transparent border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 aria-label="Slug"
                 type="text"
                 placeholder="Slug"
@@ -56,7 +64,7 @@ const Home: NextPage = () => {
                 onChange={(e) => setSlug(e.target.value)}
               />
               <input
-                className="appearance-none w-2/4 bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                className="appearance-none w-2/4 bg-transparent border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                 aria-label="URL"
                 type="text"
                 placeholder="URL"
